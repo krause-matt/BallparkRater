@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campgrounds</title>
+    <title>Ballparks</title>
 </head>
 
 <body>
-    <h1>All Campgrounds</h1>
+    <h1>All Ballparks</h1>
     <div>
-        <a href="/campgrounds/new">Add Campground</a>
+        <a href="/ballparks/new">Add ballpark</a>
     </div>
     <ul>
-        <% for (let campground of campgrounds){%>
-        <li><a href="/campgrounds/<%= campground._id %>"><%= campground.title %></a></li>
+        <% for (let ballpark of ballparks){%>
+        <li><a href="/ballparks/<%= ballpark._id %>"><%= ballpark.title %></a></li>
         <% }%>
     </ul>
 

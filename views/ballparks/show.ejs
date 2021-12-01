@@ -8,17 +8,17 @@
 </head>
 
 <body>
-    <h1><%= campground.title %></h1>
-    <h2><%= campground.location %></h2>
-    <p> <a href="/campgrounds/<%=campground._id%>/edit">Edit</a>
+    <h1><%= ballpark.title %></h1>
+    <h2><%= ballpark.location %></h2>
+    <p> <a href="/ballparks/<%=ballpark._id%>/edit">Edit</a>
     </p>
     <p>
-    <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+    <form action="/ballparks/<%=ballpark._id%>?_method=DELETE" method="POST">
         <button>Delete</button>
     </form>
     </p>
     <footer>
-        <a href="/campgrounds">All Campgrounds</a>
+        <a href="/ballparks">All Ballparks</a>
     </footer>
 </body>
 
