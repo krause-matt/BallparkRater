@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const Ballpark = require('./models/ballparks');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect('mongodb://localhost:27017/ballparks', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -17,7 +17,6 @@ db.once("open", () => {
 });
 
 const app = express();
-
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
@@ -38,7 +37,7 @@ app.get('/ballparks/new', (req, res) => {
 })
 
 app.post('/ballparks', async (req, res) => {
-    const ballpark = new ballpark(req.body.ballpark);
+    const ballpark = new Ballpark(req.body.ballpark);
     await ballpark.save();
     res.redirect(`/ballparks/${ballpark._id}`)
 })
