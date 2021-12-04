@@ -4,22 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show</title>
+    <title>Ballpark Details</title>
 </head>
 
 <body>
-    <h1><%= ballpark.title %></h1>
-    <h2><%= ballpark.location %></h2>
-    <p> <a href="/ballparks/<%=ballpark._id%>/edit">Edit</a>
-    </p>
-    <p>
-    <form action="/ballparks/<%=ballpark._id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-    </p>
-    <footer>
-        <a href="/ballparks">All Ballparks</a>
-    </footer>
+    <h1><%= ballparks.team %> </h1>
+    <h2><%= ballparks.ballpark %> </h2>
 </body>
 
 </html>

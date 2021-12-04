@@ -9,12 +9,9 @@
 
 <body>
     <h1>All Ballparks</h1>
-    <div>
-        <a href="/ballparks/new">Add ballpark</a>
-    </div>
     <ul>
         <% for (let ballpark of ballparks){%>
-        <li><a href="/ballparks/<%= ballpark._id %>"><%= ballpark.title %></a></li>
+        <li><a href="/ballparks/<%= ballpark._id %> "><%= ballpark.team %> - <%= ballpark.ballpark %></a></li>
         <% }%>
     </ul>
 

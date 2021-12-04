@@ -19,53 +19,26 @@ db.once("open", () => {
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 
-app.get('/', (req, res) => {
-    res.render('home')
+app.get("/", (req, res) => {
+    res.render('home');
 });
-app.get('/ballparks', async (req, res) => {
+
+app.get("/ballparks", async (req, res) => {
     const ballparks = await Ballpark.find({});
-    res.render('ballparks/index', { ballparks })
+    res.render("ballparks/index", {ballparks});
+})
+
+app.get("/ballparks/:id", async (req, res) => {
+    const ballparks = await Ballpark.findById(req.params.id);
+    res.render("ballparks/show", {ballparks});
 });
-app.get('/ballparks/new', (req, res) => {
-    res.render('ballparks/new');
-})
-
-app.post('/ballparks', async (req, res) => {
-    const ballpark = new Ballpark(req.body.ballpark);
-    await ballpark.save();
-    res.redirect(`/ballparks/${ballpark._id}`)
-})
-
-app.get('/ballparks/:id', async (req, res,) => {
-    const ballpark = await Ballpark.findById(req.params.id)
-    res.render('ballparks/show', { ballpark });
-});
-
-app.get('/ballparks/:id/edit', async (req, res) => {
-    const ballpark = await Ballpark.findById(req.params.id)
-    res.render('ballparks/edit', { ballpark });
-})
-
-app.put('/ballparks/:id', async (req, res) => {
-    const { id } = req.params;
-    const ballpark = await Ballpark.findByIdAndUpdate(id, { ...req.body.ballpark });
-    res.redirect(`/ballparks/${ballpark._id}`)
-});
-
-app.delete('/ballparks/:id', async (req, res) => {
-    const { id } = req.params;
-    await Ballpark.findByIdAndDelete(id);
-    res.redirect('/ballparks');
-})
-
-
 
 app.listen(3000, () => {
-    console.log('Serving on port 3000')
-})
+    console.log('Serving on port 3000');
+});
