@@ -9,6 +9,7 @@
 
 <body>
     <h1>All Ballparks</h1>
+    <a href="/ballparks/new">Add New Ballpark</a>
     <ul>
         <% for (let ballpark of ballparks){%>
         <li><a href="/ballparks/<%= ballpark._id %> "><%= ballpark.team %> - <%= ballpark.ballpark %></a></li>

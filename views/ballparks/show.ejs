@@ -8,8 +8,17 @@
 </head>
 
 <body>
-    <h1><%= ballparks.team %> </h1>
-    <h2><%= ballparks.ballpark %> </h2>
+    <h1><%= ballpark.team %> </h1>
+    <h2><%= ballpark.ballpark %> </h2>
+    <a href="/ballparks/<%= ballpark._id %>/edit">Edit Ballpark</a>
+    <p>
+        <form action="/ballparks/<%= ballpark._id %>/delete?_method=DELETE" method="POST">
+            <button>Delete Ballpark</button>
+        </form>
+    </p>
+    <footer>
+        <a href="/ballparks">All Ballparks</a>
+    </footer>
 </body>
 
 </html>

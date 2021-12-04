@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const BallparkSchema = new Schema({
     ballpark: String,
     team: String,
+    class: String,
+    league: String,
     x: Number,
     y: Number
 });

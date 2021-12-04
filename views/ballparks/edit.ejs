@@ -11,12 +11,12 @@
     <h1>Edit Ballpark</h1>
     <form action="/ballparks/<%=ballpark._id%>?_method=PUT" method="POST">
         <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="ballpark[title]" value="<%=ballpark.title %>">
+            <label for="ballpark">Ballpark Name</label>
+            <input type="text" id="ballpark" name="ballpark[ballpark]" value="<%=ballpark.ballpark %>">
         </div>
         <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="ballpark[location]" value="<%= ballpark.location%>">
+            <label for="team">Team</label>
+            <input type="text" id="team" name="ballpark[team]" value="<%= ballpark.team%>">
         </div>
         <button>Update Ballpark</button>
     </form>

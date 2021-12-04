@@ -20,25 +20,19 @@ db.once("open", () => {
 
 const seedDB = async () => {
     await Ballpark.deleteMany({});
-    // const c = new Ballpark({title: `${ballparkdata[0].features[0].properties.Ballpark}`});
-    // await c.save();
-    for (let i = 0; i < 30; i++) {
+    
+    for (let i = 0; i < 200; i++) {
         const park = new Ballpark({
             ballpark: `${ballparkdata[0].features[i].properties.Ballpark}`,
             team: `${ballparkdata[0].features[i].properties.Teams[0].Team}`,
+            class: `${ballparkdata[0].features[i].properties.Teams[0].Class}`,
+            league: `${ballparkdata[0].features[i].properties.Teams[0].League}`,
             x: `${ballparkdata[0].features[i].geometry.coordinates[0]}`,
             y: `${ballparkdata[0].features[i].geometry.coordinates[1]}`
         });
-        await park.save();
 
-
-        // const random1000 = Math.floor(Math.random() * 1000);
-        // const park = new Ballpark({
-        //     location: `${cities[random1000].city}, ${cities[random1000].state}`,
-        //     title: `${sample(descriptors)} ${sample(places)}`
-        // })
-        // await park.save();
-    }
+        await park.save();       
+    };
 }
 
 seedDB().then(() => {

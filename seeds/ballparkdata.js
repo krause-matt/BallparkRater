@@ -2062,18 +2062,6 @@ module.exports = [
         "type": "Feature",
         "geometry": {
           "type": "Point",
-          "coordinates": [-89.007947, 42.53539]
-        },
-        "properties": {
-          "Ballpark": "Harry C. Pohlman Field",
-          "Teams": [					
-          ]
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
           "coordinates": [-91.686389, 41.968056]
         },
         "properties": {
