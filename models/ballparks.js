@@ -7,7 +7,8 @@ const BallparkSchema = new Schema({
     class: String,
     league: String,
     x: Number,
-    y: Number
+    y: Number,
+    image: String
 });
 
 module.exports = mongoose.model('Ballpark', BallparkSchema);

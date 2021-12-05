@@ -1,26 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Ballpark</title>
-</head>
-
-<body>
-    <form action="/ballparks" method="POST">
-        <div>
-            <label for="ballpark">Ballpark Name</label>
-            <input type="text" id="ballpark" name="ballpark[ballpark]">
-        </div>
-        <div>
-            <label for="team">Team</label>
-            <input type="text" id="team" name="ballpark[team]">
-        </div>
-        <button>Add Ballpark</button>
-    </form>
-    <a href="/ballparks">All Ballparks</a>
-
-</body>
-
-</html>
+<% layout("layouts/boilerplate") %>
+<div class="row">
+    <h3 class="text-center">New Ballpark</h3>
+    <div class="col-6 offset-3">
+        <form action="/ballparks" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="ballpark">Ballpark Name</label>
+                <input class="form-control" type="text" id="ballpark" name="ballpark[ballpark]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="team">Team</label>
+                <input class="form-control" type="text" id="team" name="ballpark[team]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="ballpark[image]">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Ballpark</button>
+            </div>            
+        </form>
+        <!-- <a href="/ballparks">All Ballparks</a> -->
+    </div>
+</div>

@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballparks</title>
-</head>
-
-<body>
+<% layout("layouts/boilerplate") %>
+<div class="mb-5">
     <h1>All Ballparks</h1>
-    <a href="/ballparks/new">Add New Ballpark</a>
-    <ul>
-        <% for (let ballpark of ballparks){%>
-        <li><a href="/ballparks/<%= ballpark._id %> "><%= ballpark.team %> - <%= ballpark.ballpark %></a></li>
-        <% }%>
-    </ul>
-
-</body>
-
-</html>
+</div>
+<!-- <a href="/ballparks/new">Add New Ballpark</a> -->
+<div class="row row-cols-1 row-cols-md-3 g-5">
+    <% for (let ballpark of ballparks){%>
+        <div class="col">
+            <div class="card h-100">
+                <img class="card-img-top" alt="" src="<%= ballpark.image %> "/>
+                <div class="card-body">
+                    <h5 class="card-title"><%= ballpark.ballpark %> </h5>
+                    <p class="card-text"><%= ballpark.team %> </p>
+                    <a class="btn btn-success" href="/ballparks/<%= ballpark._id %> ">Details</a>                    
+                </div>
+            </div>
+        </div>
+    <% }%>
+</div>

@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballpark Details</title>
-</head>
-
-<body>
-    <h1><%= ballpark.team %> </h1>
-    <h2><%= ballpark.ballpark %> </h2>
-    <a href="/ballparks/<%= ballpark._id %>/edit">Edit Ballpark</a>
-    <p>
-        <form action="/ballparks/<%= ballpark._id %>/delete?_method=DELETE" method="POST">
-            <button>Delete Ballpark</button>
-        </form>
-    </p>
-    <footer>
-        <a href="/ballparks">All Ballparks</a>
-    </footer>
-</body>
-
-</html>
+<% layout("layouts/boilerplate") %>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-5">
+            <img src="<%= ballpark.image %>" class="card-img-top" alt="">
+            <div class="card-body">
+              <h5 class="card-title"><%= ballpark.ballpark %></h5>
+              <p class="card-text"><%= ballpark.team %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Latitude : <%= ballpark.y %></li>
+              <li class="list-group-item">Longitude : <%= ballpark.x %></li>
+            </ul>
+            <div class="card-body">
+              <a href="/ballparks/<%= ballpark._id %>/edit" class="btn btn-info card-link">Edit Ballpark</a>
+              <p>
+                <form action="/ballparks/<%= ballpark._id %>/delete?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete Ballpark</button>
+                </form>
+              </p>
+            </div>
+          </div>
+    </div>
+</div>
