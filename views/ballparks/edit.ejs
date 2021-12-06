@@ -2,18 +2,41 @@
 <div class="row">
     <h3 class="text-center">Edit Ballpark</h3>
     <div class="col-6 offset-3">
-        <form action="/ballparks/<%=ballpark._id%>?_method=PUT" method="POST">
+        <form action="/ballparks/<%=ballpark._id%>?_method=PUT" method="POST" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="ballpark">Ballpark Name</label>
-                <input class="form-control" type="text" id="ballpark" name="ballpark[ballpark]" value="<%=ballpark.ballpark %>">
+                <input class="form-control" type="text" id="ballpark" name="ballpark[ballpark]" value="<%=ballpark.ballpark %>" required>
+                <div class="invalid-feedback">
+                    Please provide the ballpark name
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="team">Team</label>
-                <input class="form-control" type="text" id="team" name="ballpark[team]" value="<%= ballpark.team%>">
+                <input class="form-control" type="text" id="team" name="ballpark[team]" value="<%= ballpark.team%>" required>
+                <div class="invalid-feedback">
+                    Please provide the team
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="y">Latitude</label>
+                <input class="form-control" type="text" id="y" name="ballpark[y]" value="<%= ballpark.y%>" required>
+                <div class="invalid-feedback">
+                    Please provide the ballpark latitude
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="x">Longitude</label>
+                <input class="form-control" type="text" id="x" name="ballpark[x]" value="<%= ballpark.x%>" required>
+                <div class="invalid-feedback">
+                    Please provide the ballpark latitude
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="ballpark[image]" value="<%= ballpark.image%>">
+                <input class="form-control" type="text" id="image" name="ballpark[image]" value="<%= ballpark.image%>" required>
+                <div class="invalid-feedback">
+                    Please provide an image URL
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Update Ballpark</button>
@@ -22,3 +45,25 @@
         <!-- <a href="/ballparks">All Ballparks</a> -->
     </div>
 </div>
+
+<script>
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>

@@ -1,13 +1,14 @@
 <% layout("layouts/boilerplate") %>
 <div class="row">
-    <div class="col-6 offset-3">
-        <div class="card mb-5">
-            <img src="<%= ballpark.image %>" class="card-img-top" alt="">
+    <div class="mx-auto" style="width: 22rem;">
+        <div class="card text-center mb-5">
+            <img src="<%= ballpark.image %>" class="card-img-top mx-auto mt-1" alt="" style="height: 20rem; width: 20rem; object-fit: cover;">
             <div class="card-body">
-              <h5 class="card-title"><%= ballpark.ballpark %></h5>
+              <h5 class="card-title" style="font-weight: bold;"><%= ballpark.ballpark %></h5>
               <p class="card-text"><%= ballpark.team %></p>
             </div>
             <ul class="list-group list-group-flush">
+              <li class="list-group-item">League : <%= ballpark.league %></li>
               <li class="list-group-item">Latitude : <%= ballpark.y %></li>
               <li class="list-group-item">Longitude : <%= ballpark.x %></li>
             </ul>
