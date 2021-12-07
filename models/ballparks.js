@@ -6,8 +6,8 @@ const BallparkSchema = new Schema({
     team: String,
     class: String,
     league: String,
-    x: Number,
-    y: Number,
+    longitude: Number,
+    latitude: Number,
     image: String
 });
 
