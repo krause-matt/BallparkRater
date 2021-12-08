@@ -8,7 +8,13 @@ const BallparkSchema = new Schema({
     league: String,
     longitude: Number,
     latitude: Number,
-    image: String
+    image: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ]
 });
 
-module.exports = mongoose.model('Ballpark', BallparkSchema);
+module.exports = mongoose.model("Ballpark", BallparkSchema);
