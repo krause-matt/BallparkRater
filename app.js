@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const engine = require('ejs-mate');
 const methodOverride = require('method-override');
 const Ballpark = require('./models/ballparks');
+const Review = require('./models/review');
 const catchError = require("./utilities/catchError");
 const ExpressErr = require("./utilities/ExpressErr");
 const {ballparkSchema} = require("./schemas");
@@ -84,6 +85,15 @@ app.delete("/ballparks/:id/delete", catchError(async (req, res, next) => {
     const ballpark = await Ballpark.findByIdAndDelete(req.params.id);
     res.redirect("/ballparks");
 }));
+
+app.post("/ballparks/:id/reviews", async(req, res, next) => {
+    const ballpark = await Ballpark.findById(req.params.id);
+    const review = new Review(req.body.review);
+    ballpark.reviews.push(review);
+    await ballpark.save();
+    await review.save();
+    res.redirect(`/ballparks/${ballpark.id}`)
+})
 
 app.all("*", (req, res, next) => {
     next(new ExpressErr("That page doesn't exist", 404));
