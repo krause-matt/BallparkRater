@@ -7,7 +7,7 @@ const Ballpark = require('./models/ballparks');
 const Review = require('./models/review');
 const catchError = require("./utilities/catchError");
 const ExpressErr = require("./utilities/ExpressErr");
-const {ballparkSchema} = require("./schemas");
+const { ballparkSchema, reviewSchema } = require("./schemas");
 
 mongoose.set("useFindAndModify", false);
 
@@ -35,12 +35,22 @@ app.use(methodOverride('_method'));
 const validateBallpark = (req, res, next) => {
     const {error} = ballparkSchema.validate(req.body);
     if (error) {
-        const errorMsg = error.details.map(item => item.message).join(", ")
-        throw new ExpressErr(errorMsg, 400)
+        const errorMsg = error.details.map(item => item.message).join(", ");
+        throw new ExpressErr(errorMsg, 400);
     } else {
         next();
-    }
-}
+    };
+};
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const errorMsg = error.details.map(item => item.message).join(", ");
+        throw new ExpressErr(errorMsg, 400);
+    } else {
+        next();
+    };
+};
 
 app.get("/", (req, res) => {
     res.render("home");
@@ -67,7 +77,7 @@ app.post("/ballparks", validateBallpark, catchError(async (req, res, next) => {
 }));
 
 app.get("/ballparks/:id", catchError(async (req, res, next) => {
-    const ballpark = await Ballpark.findById(req.params.id);
+    const ballpark = await Ballpark.findById(req.params.id).populate("reviews");
     res.render("ballparks/show", {ballpark});
 }));
 
@@ -86,14 +96,14 @@ app.delete("/ballparks/:id/delete", catchError(async (req, res, next) => {
     res.redirect("/ballparks");
 }));
 
-app.post("/ballparks/:id/reviews", async(req, res, next) => {
+app.post("/ballparks/:id/reviews", validateReview, catchError(async(req, res, next) => {
     const ballpark = await Ballpark.findById(req.params.id);
     const review = new Review(req.body.review);
     ballpark.reviews.push(review);
     await ballpark.save();
     await review.save();
-    res.redirect(`/ballparks/${ballpark.id}`)
-})
+    res.redirect(`/ballparks/${ballpark.id}`);
+}));
 
 app.all("*", (req, res, next) => {
     next(new ExpressErr("That page doesn't exist", 404));

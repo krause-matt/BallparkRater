@@ -9,3 +9,10 @@ module.exports.ballparkSchema = Joi.object({
       image: Joi.string().required()
   }).required()
 });
+
+module.exports.reviewSchema = Joi.object({
+  review: Joi.object({
+    rating: Joi.string().required(),
+    review: Joi.string().required()
+  }).required()
+});

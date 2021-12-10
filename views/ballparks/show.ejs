@@ -23,16 +23,47 @@
             </div>
           </div>
           <h3 class="text-center">Review Ballpark</h3>
-          <form action="/ballparks/<%= ballpark._id %>/reviews" method="POST">
+          <form class="needs-validation" action="/ballparks/<%= ballpark._id %>/reviews" method="POST" novalidate>
             <div class="mb-3">
               <label class="form-label" for="rating">Rating</label>
-              <input class="form-range" type="range" name="review[rating]" id="rating" min="1" max="5">
+              <input class="form-range" type="range" name="review[rating]" id="rating" min="1" max="5" required>
             </div>
             <div class="mb-3">
               <label class="form-label" for="review">Review</label>
-              <textarea class="form-control" name="review[review]" id="review" cols="30" rows="3"></textarea>
+              <textarea class="form-control" name="review[review]" id="review" cols="30" rows="3" required></textarea>
+              <div class="invalid-feedback">
+                Please provide a review
+              </div>
             </div>
             <button class="btn btn-success mb-3">Submit Review</button>
           </form>
+          <% for (let review of ballpark.reviews) { %>
+            <div class="mb-3">
+              <p>Rating : <%=review.rating %> </p>
+              <p>Rating : <%=review.review %> </p>
+            </div>
+          <% } %> 
     </div>
 </div>
+
+<script>
+  (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+      }, false)
+      })
+  })()
+</script>
