@@ -1,20 +1,20 @@
-const express = require('express');
-const path = require('path');
-const mongoose = require('mongoose');
-const engine = require('ejs-mate');
-const methodOverride = require('method-override');
-const Ballpark = require('./models/ballparks');
-const Review = require('./models/review');
-const catchError = require("./utilities/catchError");
+const express = require("express");
+const session = require("express-session");
+const flash = require("connect-flash");
+const path = require("path");
+const mongoose = require("mongoose");
+const engine = require("ejs-mate");
+const methodOverride = require("method-override");
 const ExpressErr = require("./utilities/ExpressErr");
-const { ballparkSchema, reviewSchema } = require("./schemas");
 
-mongoose.set("useFindAndModify", false);
+const ballparks = require("./routes/ballparks");
+const reviews = require("./routes/reviews");
 
-mongoose.connect('mongodb://localhost:27017/ballparks', {
+mongoose.connect("mongodb://localhost:27017/ballparks", {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -31,85 +31,33 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, "public")));
 
-const validateBallpark = (req, res, next) => {
-    const {error} = ballparkSchema.validate(req.body);
-    if (error) {
-        const errorMsg = error.details.map(item => item.message).join(", ");
-        throw new ExpressErr(errorMsg, 400);
-    } else {
-        next();
-    };
+const sessionSettings = {
+    secret: "Comiskey",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
 };
 
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const errorMsg = error.details.map(item => item.message).join(", ");
-        throw new ExpressErr(errorMsg, 400);
-    } else {
-        next();
-    };
-};
+app.use(session(sessionSettings));
+
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+app.use("/ballparks", ballparks);
+app.use("/ballparks/:id/reviews", reviews);
 
 app.get("/", (req, res) => {
     res.render("home");
-});
-
-app.get("/ballparks", catchError(async (req, res, next) => {
-    const ballparks = await Ballpark.find({});
-    res.render("ballparks/index", {ballparks});
-}));
-
-app.get("/ballparks/new", (req, res) => {
-    res.render("ballparks/new");
-});
-
-app.post("/ballparks", validateBallpark, catchError(async (req, res, next) => {
-    const ballpark = new Ballpark(req.body.ballpark);
-    if (!ballpark.image.includes(".")) {
-        throw new ExpressErr("Invalid image URL", 400);
-    }
-    if (ballpark.image.includes(".")) {
-        await ballpark.save();
-        res.redirect(`ballparks/${ballpark._id}`);
-    }
-}));
-
-app.get("/ballparks/:id", catchError(async (req, res, next) => {
-    const ballpark = await Ballpark.findById(req.params.id).populate("reviews");
-    res.render("ballparks/show", {ballpark});
-}));
-
-app.get("/ballparks/:id/edit", catchError(async (req, res, next) => {
-    const ballpark = await  Ballpark.findById(req.params.id);
-    res.render("ballparks/edit", {ballpark});
-}));
-
-app.put("/ballparks/:id", validateBallpark, catchError(async (req, res, next) => {
-    const ballpark = await Ballpark.findByIdAndUpdate(req.params.id, {...req.body.ballpark});
-    res.redirect(`/ballparks/${ballpark._id}`);
-}));
-
-app.delete("/ballparks/:id/delete", catchError(async (req, res, next) => {
-    const ballpark = await Ballpark.findByIdAndDelete(req.params.id);
-    res.redirect("/ballparks");
-}));
-
-app.post("/ballparks/:id/reviews", validateReview, catchError(async(req, res, next) => {
-    const ballpark = await Ballpark.findById(req.params.id);
-    const review = new Review(req.body.review);
-    ballpark.reviews.push(review);
-    await ballpark.save();
-    await review.save();
-    res.redirect(`/ballparks/${ballpark.id}`);
-}));
-
-app.delete("/ballparks/:id/reviews/:reviewId", async(req, res, next) => {
-    const { id, reviewId } = req.params;
-    await Review.findByIdAndDelete(reviewId);
-    await Ballpark.findByIdAndUpdate( id, { $pull : { reviews : reviewId}});
-    res.redirect(`/ballparks/${id}`);
 });
 
 app.all("*", (req, res, next) => {
