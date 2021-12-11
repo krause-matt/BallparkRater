@@ -105,6 +105,13 @@ app.post("/ballparks/:id/reviews", validateReview, catchError(async(req, res, ne
     res.redirect(`/ballparks/${ballpark.id}`);
 }));
 
+app.delete("/ballparks/:id/reviews/:reviewId", async(req, res, next) => {
+    const { id, reviewId } = req.params;
+    await Review.findByIdAndDelete(reviewId);
+    await Ballpark.findByIdAndUpdate( id, { $pull : { reviews : reviewId}});
+    res.redirect(`/ballparks/${id}`);
+});
+
 app.all("*", (req, res, next) => {
     next(new ExpressErr("That page doesn't exist", 404));
 });
