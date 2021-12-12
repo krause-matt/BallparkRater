@@ -24,6 +24,4 @@ BallparkSchema.post("findOneAndDelete", async function(ballpark) {
     }
 })
 
-
-
 module.exports = mongoose.model("Ballpark", BallparkSchema);
