@@ -6,9 +6,14 @@ const mongoose = require("mongoose");
 const engine = require("ejs-mate");
 const methodOverride = require("method-override");
 const ExpressErr = require("./utilities/ExpressErr");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
-const ballparks = require("./routes/ballparks");
-const reviews = require("./routes/reviews");
+const User = require("./models/user");
+
+const ballparkRoutes = require("./routes/ballparks");
+const reviewRoutes = require("./routes/reviews");
+const userRoutes = require("./routes/users");
 
 mongoose.connect("mongodb://localhost:27017/ballparks", {
     useNewUrlParser: true,
@@ -46,6 +51,12 @@ const sessionSettings = {
 
 app.use(session(sessionSettings));
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(flash());
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
@@ -53,8 +64,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/ballparks", ballparks);
-app.use("/ballparks/:id/reviews", reviews);
+app.use("/ballparks", ballparkRoutes);
+app.use("/ballparks/:id/reviews", reviewRoutes);
+app.use("/", userRoutes);
 
 app.get("/", (req, res) => {
     res.render("home");
