@@ -13,9 +13,11 @@ router.post("/register", catchError(async (req, res, next) => {
     const { username, email, password } = req.body;
     const newUser = new User({ username, email });
     const regUser = await User.register(newUser, password);
-    console.log(regUser);
-    req.flash("success", "Welcome to Ballpark Rater!");
-    res.redirect("/ballparks");
+    req.login(regUser, error => {
+      if(error) return next(error);
+      req.flash("success", "Welcome to Ballpark Rater!");
+      res.redirect("/ballparks");
+    })    
   } catch(error) {
     req.flash("error", error.message);
     res.redirect("/register");
@@ -28,7 +30,17 @@ router.get("/login", (req, res) => {
 
 router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/login" }), (req, res, next) => {
   req.flash("success", "Welcome back!");
+  const loginRedirect = req.session.returnUrl || "/ballparks";
+  delete req.session.originalUrl;
+  res.redirect(loginRedirect);
+})
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  req.flash("success", "Goodbye!");
   res.redirect("/ballparks");
 })
+
+
 
 module.exports = router;
