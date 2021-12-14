@@ -17,6 +17,7 @@ router.get("/new", isRegUser, (req, res) => {
 
 router.post("/", validateBallpark, isRegUser, catchError(async (req, res, next) => {
   const ballpark = new Ballpark(req.body.ballpark);
+  ballpark.author = req.user._id;
   if (!ballpark.image.includes(".")) {
       throw new ExpressErr("Invalid image URL", 400);
   }
@@ -28,7 +29,7 @@ router.post("/", validateBallpark, isRegUser, catchError(async (req, res, next) 
 }));
 
 router.get("/:id", catchError(async (req, res, next) => {
-  const ballpark = await Ballpark.findById(req.params.id).populate("reviews");
+  const ballpark = await Ballpark.findById(req.params.id).populate("reviews").populate("author");
   if (!ballpark) {
     req.flash("error", "Cannot find that ballpark!");
     return res.redirect("/ballparks");

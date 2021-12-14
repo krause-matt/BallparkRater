@@ -10,6 +10,10 @@ const BallparkSchema = new Schema({
     longitude: Number,
     latitude: Number,
     image: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,

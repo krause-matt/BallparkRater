@@ -29,7 +29,8 @@ const seedDB = async () => {
             league: `${ballparkdata[0].features[i].properties.Teams[0].League}`,
             longitude: `${ballparkdata[0].features[i].geometry.coordinates[0]}`,
             latitude: `${ballparkdata[0].features[i].geometry.coordinates[1]}`,
-            image: "https://source.unsplash.com/random/?baseball"
+            image: "https://source.unsplash.com/random/?baseball",
+            author: "61b7f9def66fa92d984c3658"
         });
 
         await park.save();       
