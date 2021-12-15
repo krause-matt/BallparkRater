@@ -1,4 +1,6 @@
 const { ballparkSchema, reviewSchema } = require("./schemas");
+const Ballpark = require("./models/ballparks");
+const Review = require("./models/review");
 const ExpressErr = require("./utilities/ExpressErr");
 
 module.exports.isRegUser = (req, res, next) => {
@@ -7,6 +9,26 @@ module.exports.isRegUser = (req, res, next) => {
     req.flash("error", "You must be logged in");
     return res.redirect("/login");
   };
+  next();
+};
+
+module.exports.isBallparkOwner = async (req, res, next) => {
+  const { id } = req.params;
+  const ballpark = await Ballpark.findById(id);
+  if(!ballpark.author.equals(req.user._id)) {
+    req.flash("error", "You do not have editing permissions for this ballpark!");
+    return res.redirect(`/ballparks/${id}`)
+  }
+  next();
+};
+
+module.exports.isReviewOwner = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if(!review.author.equals(req.user._id)) {
+    req.flash("error", "You do not have editing permissions for this ballpark!");
+    return res.redirect(`/ballparks/${id}`)
+  }
   next();
 };
 
