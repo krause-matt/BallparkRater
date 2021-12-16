@@ -2,60 +2,23 @@ const express = require("express");
 const router = express.Router();
 const ExpressErr = require("../utilities/ExpressErr");
 const Ballpark = require('../models/ballparks');
+const ballpark = require("../controllers/ballparks");
 
 const catchError = require("../utilities/catchError");
 const { validateBallpark, isRegUser, isBallparkOwner, isReviewOwner } = require("../middleware");
 
-router.get("/", catchError(async (req, res, next) => {
-  const ballparks = await Ballpark.find({});
-  res.render("ballparks/index", {ballparks});
-}));
+router.get("/", catchError(ballpark.main));
 
-router.get("/new", isRegUser, (req, res) => {
-  res.render("ballparks/new");
-});
+router.get("/new", isRegUser, ballpark.addBallparkForm);
 
-router.post("/", validateBallpark, isRegUser, catchError(async (req, res, next) => {
-  const ballpark = new Ballpark(req.body.ballpark);
-  ballpark.author = req.user._id;
-  if (!ballpark.image.includes(".")) {
-      throw new ExpressErr("Invalid image URL", 400);
-  }
-  if (ballpark.image.includes(".")) {
-      await ballpark.save();
-      req.flash("success", "New ballpark created!");
-      res.redirect(`ballparks/${ballpark._id}`);
-  }
-}));
+router.post("/", validateBallpark, isRegUser, catchError(ballpark.addBallpark));
 
-router.get("/:id", catchError(async (req, res, next) => {
-  const ballpark = await Ballpark.findById(req.params.id).populate({path: "reviews", populate: {path: "author"}}).populate("author");
-  if (!ballpark) {
-    req.flash("error", "Cannot find that ballpark!");
-    return res.redirect("/ballparks");
-  }
-  res.render("ballparks/show", {ballpark});
-}));
+router.get("/:id", catchError(ballpark.showBallpark));
 
-router.get("/:id/edit", isRegUser, isBallparkOwner, catchError(async (req, res, next) => {
-  const ballpark = await Ballpark.findById(req.params.id);
-  if (!ballpark) {
-    req.flash("error", "Cannot find that ballpark!");
-    return res.redirect("/ballparks");
-  }
-  res.render("ballparks/edit", {ballpark});
-}));
+router.get("/:id/edit", isRegUser, isBallparkOwner, catchError(ballpark.editBallparkForm));
 
-router.put("/:id", validateBallpark, isRegUser, isBallparkOwner, catchError(async (req, res, next) => {
-  const ballpark = await Ballpark.findByIdAndUpdate(req.params.id, {...req.body.ballpark});
-  req.flash("success", "Ballpark edited!");
-  res.redirect(`/ballparks/${ballpark._id}`);
-}));
+router.put("/:id", validateBallpark, isRegUser, isBallparkOwner, catchError(ballpark.editBallpark));
 
-router.delete("/:id/delete", isRegUser, isBallparkOwner, catchError(async (req, res, next) => {
-  const ballpark = await Ballpark.findByIdAndDelete(req.params.id);
-  req.flash("success", "Ballpark deleted!");
-  res.redirect("/ballparks");
-}));
+router.delete("/:id/delete", isRegUser, isBallparkOwner, catchError(ballpark.deleteBallpark));
 
 module.exports = router;

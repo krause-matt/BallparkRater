@@ -2,28 +2,14 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const catchError = require("../utilities/catchError");
 
-const Ballpark = require('../models/ballparks');
-const Review = require('../models/review');
+const Ballpark = require("../models/ballparks");
+const Review = require("../models/review");
+const reviews = require("../controllers/reviews");
 
 const { validateReview, isRegUser, isReviewOwner } = require("../middleware");
 
-router.post("/", validateReview, isRegUser, catchError(async(req, res, next) => {
-  const ballpark = await Ballpark.findById(req.params.id);
-  const review = new Review(req.body.review);
-  review.author = req.user._id;
-  ballpark.reviews.push(review);  
-  await ballpark.save();
-  await review.save();
-  req.flash("success", "New review posted!");
-  res.redirect(`/ballparks/${ballpark.id}`);
-}));
+router.post("/", validateReview, isRegUser, catchError(reviews.addReview));
 
-router.delete("/:reviewId", isRegUser, isReviewOwner, async(req, res, next) => {
-  const { id, reviewId } = req.params;
-  await Review.findByIdAndDelete(reviewId);
-  await Ballpark.findByIdAndUpdate( id, { $pull : { reviews : reviewId}});
-  req.flash("success", "Review deleted!");
-  res.redirect(`/ballparks/${id}`);
-});
+router.delete("/:reviewId", isRegUser, isReviewOwner, reviews.deleteReview);
 
 module.exports = router;
