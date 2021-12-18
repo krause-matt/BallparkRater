@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const ExpressErr = require("../utilities/ExpressErr");
-const Ballpark = require('../models/ballparks');
 const ballpark = require("../controllers/ballparks");
-
 const catchError = require("../utilities/catchError");
-const { validateBallpark, isRegUser, isBallparkOwner, isReviewOwner } = require("../middleware");
+const { validateBallpark, isRegUser, isBallparkOwner } = require("../middleware");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 
 router.route("/")
   .get(catchError(ballpark.main))
