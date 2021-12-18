@@ -12,15 +12,16 @@ module.exports.addBallparkForm = (req, res) => {
 
 module.exports.addBallpark = async (req, res, next) => {
   const ballpark = new Ballpark(req.body.ballpark);
+  ballpark.images = req.files.map(item => ({url: item.path, filename: item.filename}))
   ballpark.author = req.user._id;
-  if (!ballpark.image.includes(".")) {
-      throw new ExpressErr("Invalid image URL", 400);
-  }
-  if (ballpark.image.includes(".")) {
+  // if (!ballpark.image.includes(".")) {
+  //     throw new ExpressErr("Invalid image URL", 400);
+  // }
+  // if (ballpark.image.includes(".")) {
       await ballpark.save();
       req.flash("success", "New ballpark created!");
       res.redirect(`ballparks/${ballpark._id}`);
-  }
+  // }
 }
 
 module.exports.showBallpark = async (req, res, next) => {

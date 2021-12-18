@@ -9,7 +9,12 @@ const BallparkSchema = new Schema({
     league: String,
     longitude: Number,
     latitude: Number,
-    image: String,
+    images: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: "User"
