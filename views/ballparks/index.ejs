@@ -1,10 +1,14 @@
 <% layout("layouts/boilerplate") %>
+
+<div class="mb-3">
+    <div id="map" style="width: 100%; height: 18rem;"></div>
+</div>
+
 <div class="mb-5">
     <h1>All Ballparks</h1>
 </div>
-<!-- <a href="/ballparks/new">Add New Ballpark</a> -->
 <div class="row row-cols-1 row-cols-md-3 g-5">
-    <% for (let ballpark of ballparks){%>
+    <% for (let ballpark of ballparks){%> 
         <div class="col">
             <div class="card h-100">
                 <img class="card-img-top" style="height: 25rem; width: 25rem; object-fit: cover;" alt="" src="<%= ballpark.images[0].url %> "/>
@@ -17,3 +21,13 @@
         </div>
     <% }%>
 </div>
+
+<script>
+    const ballparkCoordinates = [];
+    <% for (let ballpark of ballparks) { %>
+        ballparkCoordinates.push( {geometry: <%- JSON.stringify(ballpark.location)%>, properties: {ballpark: <%- JSON.stringify(ballpark.ballpark)%>, id: <%- JSON.stringify(ballpark._id)%>, team: <%- JSON.stringify(ballpark.team)%>}});
+    <% } %>
+    const mapboxToken = "<%-process.env.MAPBOX_TOKEN%>";
+    const ballparkLocations = {features: ballparkCoordinates}
+</script>
+<script src="/scripts/ballparkClusterMap.js"></script>

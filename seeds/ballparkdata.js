@@ -115,7 +115,7 @@ module.exports = [
         "properties": {
           "Ballpark": "Coors Field",
           "Teams": [
-            { "Team": "Coloradao Rockies", "Class": "Majors", "League": "Major League Baseball" }
+            { "Team": "Colorado Rockies", "Class": "Majors", "League": "Major League Baseball" }
           ]
         }
       },
