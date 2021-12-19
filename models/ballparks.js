@@ -31,6 +31,18 @@ const BallparkSchema = new Schema({
     ]
 });
 
+BallparkSchema.virtual("location").get(function() {
+    return (
+        {
+            "type" : "Point",
+            "coordinates" : [
+                this.longitude,
+                this.latitude
+            ]
+        }
+    )
+});
+
 BallparkSchema.post("findOneAndDelete", async function(ballpark) {
     if (ballpark) {
         await Review.deleteMany({ _id: { $in: ballpark.reviews}})

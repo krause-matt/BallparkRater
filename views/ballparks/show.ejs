@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/styles/starability-basic.css"/>
 
 <div class="row">
-  <div class="col-4 offset-1">
+  <div class="col-4">
     <div class="mx-auto" style="width: 26rem;">
       <h3 class="text-center">Ballpark Details</h3>
       <div id="ballparksCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -48,9 +48,13 @@
       </div>        
     </div>
   </div>
-  <div class="col-4 offset-2">
+  <div class="col-4">
+    <div class="mb-3">
+      <h3 class="text-center">Map</h3>
+      <div id='map' style='width: 26rem; height: 25rem;'></div>
+    </div>  
     <% if(loggedInUser) { %> 
-    <h3 class="text-center">Review Ballpark</h3>
+      <h3 class="text-center">Review Ballpark</h3>
       <form class="needs-validation mb-3" action="/ballparks/<%= ballpark._id %>/reviews" method="POST" novalidate>
         <div class="mb-3">
           <label class="form-label" for="review[rating]">Rating</label>
@@ -77,27 +81,36 @@
         </div>
         <button class="btn btn-success mb-3">Submit Review</button>
       </form>
-    <% } %>  
-      <h3 class="text-center">Reviews</h3>
-      <div class="card">
-        <% for (let review of ballpark.reviews) { %>
-        <div class="card-header" style="font-weight: bold">
-          <div class="d-flex p-1 justify-content-sm-between">
-            <h6 class="starability-result" data-rating="<%=review.rating%>" style="margin-top: -.5rem"></h6>                       
-            <h6 class="card-subtitle"><small class="text-muted">Submitted by: <%=review.author.username%></small></h6>
-          </div>                           
-        </div>        
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <%=review.review %>
-            <% if(loggedInUser && review.author.equals(loggedInUser._id)){%>
-            <form class="mt-3 d-grid gap-2 d-md-flex justify-content-md-end" action="/ballparks/<%= ballpark._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-            <% } %> 
-          </li>
-        </ul>
-        <% } %> 
-      </div>      
+    <% } %>
+  </div>
+  <div class="col-4">     
+    <h3 class="text-center">Reviews</h3>
+    <div class="card">
+      <% for (let review of ballpark.reviews) { %>
+      <div class="card-header" style="font-weight: bold">
+        <div class="d-flex p-1 justify-content-sm-between">
+          <h6 class="starability-result" data-rating="<%=review.rating%>" style="margin-top: -.5rem"></h6>                       
+          <h6 class="card-subtitle"><small class="text-muted">Submitted by: <%=review.author.username%></small></h6>
+        </div>                           
+      </div>        
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <%=review.review %>
+          <% if(loggedInUser && review.author.equals(loggedInUser._id)){%>
+          <form class="mt-3 d-grid gap-2 d-md-flex justify-content-md-end" action="/ballparks/<%= ballpark._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <% } %> 
+        </li>
+      </ul>
+      <% } %> 
+    </div>      
   </div>    
 </div>
+
+<script>
+  const mapboxToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const long = "<%- ballpark.longitude %>"
+  const lat = "<%- ballpark.latitude %>"
+</script>
+<script src="/scripts/ballparkMap.js"></script>

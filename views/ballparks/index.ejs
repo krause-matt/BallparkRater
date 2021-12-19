@@ -7,7 +7,7 @@
     <% for (let ballpark of ballparks){%>
         <div class="col">
             <div class="card h-100">
-                <img class="card-img-top" alt="" src="<%= ballpark.images[0].url %> "/>
+                <img class="card-img-top" style="height: 25rem; width: 25rem; object-fit: cover;" alt="" src="<%= ballpark.images[0].url %> "/>
                 <div class="card-body">
                     <h5 class="card-title"><%= ballpark.ballpark %> </h5>
                     <p class="card-text"><%= ballpark.team %> </p>
