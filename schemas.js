@@ -1,12 +1,23 @@
 const Joi = require("joi");
 
+// module.exports.ballparkSchema = Joi.object({
+//   ballpark: Joi.object({
+//       ballpark: Joi.string().required(),
+//       team: Joi.string().required(),
+//       latitude: Joi.number().required(),
+//       longitude: Joi.number().required()
+//   }).required()
+// });
+
 module.exports.ballparkSchema = Joi.object({
   ballpark: Joi.object({
       ballpark: Joi.string().required(),
       team: Joi.string().required(),
       latitude: Joi.number().required(),
-      longitude: Joi.number().required()
-  }).required()
+      longitude: Joi.number().required(),
+      deleteImages: Joi.array()
+  }),
+  deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({

@@ -1,5 +1,6 @@
 const Ballpark = require("../models/ballparks");
 const ExpressErr = require("../utilities/ExpressErr");
+const { cloudinary } = require("../cloudinary/index");
 
 module.exports.main = async (req, res, next) => {
   const ballparks = await Ballpark.find({});
@@ -14,14 +15,9 @@ module.exports.addBallpark = async (req, res, next) => {
   const ballpark = new Ballpark(req.body.ballpark);
   ballpark.images = req.files.map(item => ({url: item.path, filename: item.filename}))
   ballpark.author = req.user._id;
-  // if (!ballpark.image.includes(".")) {
-  //     throw new ExpressErr("Invalid image URL", 400);
-  // }
-  // if (ballpark.image.includes(".")) {
-      await ballpark.save();
-      req.flash("success", "New ballpark created!");
-      res.redirect(`ballparks/${ballpark._id}`);
-  // }
+  await ballpark.save();
+  req.flash("success", "New ballpark created!");
+  res.redirect(`ballparks/${ballpark._id}`);
 }
 
 module.exports.showBallpark = async (req, res, next) => {
@@ -44,6 +40,15 @@ module.exports.editBallparkForm = async (req, res, next) => {
 
 module.exports.editBallpark = async (req, res, next) => {
   const ballpark = await Ballpark.findByIdAndUpdate(req.params.id, {...req.body.ballpark});
+  const images = req.files.map(item => ({url: item.path, filename: item.filename}))
+  ballpark.images.push(...images);
+  await ballpark.save();
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    };
+    await ballpark.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}});
+  };
   req.flash("success", "Ballpark edited!");
   res.redirect(`/ballparks/${ballpark._id}`);
 }

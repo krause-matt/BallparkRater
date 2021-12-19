@@ -2,7 +2,7 @@
 <div class="row">
     <h3 class="text-center">Edit Ballpark</h3>
     <div class="col-6 offset-3">
-        <form action="/ballparks/<%=ballpark._id%>?_method=PUT" method="POST" class="needs-validation" novalidate>
+        <form action="/ballparks/<%=ballpark._id%>?_method=PUT" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
             <div class="mb-3">
                 <label class="form-label" for="ballpark">Ballpark Name</label>
                 <input class="form-control" type="text" id="ballpark" name="ballpark[ballpark]" value="<%=ballpark.ballpark %>" required>
@@ -32,11 +32,15 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="ballpark[image]" value="<%= ballpark.image%>" required>
-                <div class="invalid-feedback">
-                    Please provide an image URL
-                </div>
+                <label class="form-label" for="imageUpload">Add Images</label>
+                <input class="form-control" type="file" id="imageUpload" name="imageUpload" multiple>
+            </div>
+            <div class="mb-3">
+                <% ballpark.images.forEach(function(image, index) { %>
+                    <img src="<%= image.thumbnail %>" alt="" style="height: 15rem; width: 15rem; object-fit: cover;">
+                    <label for="delete-<%= index %>">Delete?</label>
+                    <input type="checkbox" id="delete-<%= index %>" name=deleteImages[] value="<%= image.filename %>">
+                <% }) %> 
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Update Ballpark</button>
