@@ -1,10 +1,38 @@
 body {
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.426), rgba(0, 0, 0, 0.46)), url("https://images.unsplash.com/photo-1471295253337-3ceaaedca402?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2068&q=80");
+  background-image: linear-gradient(rgba(0, 255, 42, 0.261), rgba(13, 255, 0, 0.611)), url("https://images.unsplash.com/photo-1470755711115-961e80ee0284?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
   background-size: cover;
   background-position: center;
 }
 
-h1 {
-  color: blue;
+.topbar {
+  border-top: 2px solid rgba(255, 255, 255, 0.713);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.719);
+  background-color: rgba(0, 128, 0, 1);
+}
+
+header > h1 {
+  color: white;
+  font-weight: 600;
+}
+
+nav > a {
+  margin-right: 4rem;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.main {
+  background-color: white;
+  box-shadow: 0 5px 3px rgba(0,0,0,.35);
+  border-radius: 2%;
+}
+
+.footer {
+  color: white;
+  font-weight: bolder;
+  border-top: 2px solid rgba(255, 255, 255, 0.713);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.719);
+  background-color: rgba(0, 128, 0, 0.864);
 }
