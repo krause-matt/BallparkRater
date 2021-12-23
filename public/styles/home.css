@@ -6,33 +6,57 @@ body {
 }
 
 .topbar {
-  border-top: 2px solid rgba(255, 255, 255, 0.713);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.719);
-  background-color: rgba(0, 128, 0, 1);
+  background-color: darkslategray;
 }
 
-header > h1 {
+header {
   color: white;
   font-weight: 600;
+  height: 3rem;
 }
 
-nav > a {
+a {
   margin-right: 4rem;
   text-decoration: none;
   color: white;
   font-weight: bold;
 }
 
+a:hover {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
 .main {
   background-color: white;
-  box-shadow: 0 5px 3px rgba(0,0,0,.35);
-  border-radius: 2%;
+  height: 100%;
+}
+
+.main > .description {
+  background: linear-gradient(90deg,#75C55B, #8cd374);
+  width: 45%;
+  border-right: 3px solid white;
+}
+
+.title {
+  text-align: end;
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.main > .photo {
+  background-image: url("https://images.unsplash.com/photo-1623947453126-3652fc16b2b0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80");
+  background-size: cover;
+  background-position: center;
 }
 
 .footer {
   color: white;
   font-weight: bolder;
-  border-top: 2px solid rgba(255, 255, 255, 0.713);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.719);
-  background-color: rgba(0, 128, 0, 0.864);
+  background-color: darkslategray;
+  height: 3rem;
+}
+
+.footer > div {
+  margin: auto;
 }

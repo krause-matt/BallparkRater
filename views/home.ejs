@@ -11,16 +11,27 @@
 
 <body>
     <div class="d-flex flex-column justify-content-between h-100 w-100">
-        <header class="topbar d-flex flex-row align-items-center">
-            <h1 class="me-auto ms-3">BallparkRater</h1>
+        <header class="topbar d-flex flex-row justify-content-center align-items-center">
             <nav>
                 <a href="/register">REGISTER</a>
                 <a href="/login">LOGIN</a>
                 <a href="/logout">LOGOUT</a>
             </nav>
         </header>
-        <main class="main text-center h-25 w-25">main</main>
-        <footer class="footer text-center mb-2">&copy; BallparkRater 2022</footer>
+        <main class="main d-flex flex-row align-items-stretch">
+            <div class="description d-flex text-center justify-content-end align-items-center p-5">
+                <h1 class="title">
+                    Ballpark<br>Rater
+                </h1>
+                <p>
+                    Every ballpark.
+                </p>
+            </div>
+            <div class="photo flex-fill text-center"></div>
+        </main>
+        <footer class="d-flex footer">
+            <div>&copy; BallparkRater 2022</div>
+        </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
