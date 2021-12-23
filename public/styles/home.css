@@ -1,12 +1,10 @@
 body {
   height: 100vh;
-  background-image: linear-gradient(rgba(0, 255, 42, 0.261), rgba(13, 255, 0, 0.611)), url("https://images.unsplash.com/photo-1470755711115-961e80ee0284?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
-  background-size: cover;
-  background-position: center;
 }
 
 .topbar {
   background-color: darkslategray;
+  border-bottom: 2px solid black;
 }
 
 header {
@@ -15,14 +13,14 @@ header {
   height: 3rem;
 }
 
-a {
+nav > a {
   margin-right: 4rem;
   text-decoration: none;
   color: white;
   font-weight: bold;
 }
 
-a:hover {
+nav > a:hover {
   color: white;
   border-bottom: 2px solid white;
 }
@@ -35,7 +33,7 @@ a:hover {
 .main > .description {
   background: linear-gradient(90deg,#75C55B, #8cd374);
   width: 45%;
-  border-right: 3px solid white;
+  border-right: 2px solid black;
 }
 
 .title {
@@ -44,10 +42,31 @@ a:hover {
   font-weight: bold;
 }
 
+.paragraph {
+  text-align: end;
+  font-size: 1rem;
+}
+
 .main > .photo {
   background-image: url("https://images.unsplash.com/photo-1623947453126-3652fc16b2b0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80");
   background-size: cover;
   background-position: center;
+}
+
+a > button {
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  border-radius: 3rem;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: 2px solid black;
+  margin: auto
+}
+
+a > button:active {
+  background: white;
+  transform: translateY(2px);
 }
 
 .footer {
@@ -55,6 +74,7 @@ a:hover {
   font-weight: bolder;
   background-color: darkslategray;
   height: 3rem;
+  border-top: 2px solid black;
 }
 
 .footer > div {
