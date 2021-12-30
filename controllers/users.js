@@ -34,5 +34,5 @@ module.exports.submitLogin = (req, res, next) => {
 module.exports.logout = (req, res) => {
   req.logout();
   req.flash("success", "Goodbye!");
-  res.redirect("/ballparks");
+  res.redirect("/");
 };
