@@ -13,6 +13,7 @@ const ExpressErr = require("./utilities/ExpressErr");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
 
 const User = require("./models/user");
 
@@ -43,8 +44,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
+//app.use(helmet({contentSecurityPolicy: false,}));
 
 const sessionSettings = {
+    name: "BR_Session",
     secret: "Comiskey",
     resave: false,
     saveUninitialized: true,
