@@ -14,12 +14,17 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+const MongoStore = require("connect-mongo");
 
 const User = require("./models/user");
 
 const ballparkRoutes = require("./routes/ballparks");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
+
+const mongoDb = process.env.MONGODB;
+
+//mongoose.connect("mongodb://localhost:27017/ballparks"
 
 mongoose.connect("mongodb://localhost:27017/ballparks", {
     useNewUrlParser: true,
@@ -46,7 +51,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 //app.use(helmet({contentSecurityPolicy: false,}));
 
+const store = MongoStore.create({
+    mongoUrl: "mongodb://localhost:27017/ballparks",
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: "Comiskey"
+    }
+});
+
+store.on("error", function (err) {
+    console.log("Session store error", err);
+});
+
 const sessionSettings = {
+    store,
     name: "BR_Session",
     secret: "Comiskey",
     resave: false,
