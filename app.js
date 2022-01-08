@@ -23,10 +23,10 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 
 const mongoDb = process.env.MONGODB;
+const secret = process.env.SECRET;
 
 //mongoose.connect("mongodb://localhost:27017/ballparks"
-
-mongoose.connect("mongodb://localhost:27017/ballparks", {
+mongoose.connect(mongoDb, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -51,11 +51,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 //app.use(helmet({contentSecurityPolicy: false,}));
 
+//mongoUrl: "mongodb://localhost:27017/ballparks"
 const store = MongoStore.create({
-    mongoUrl: "mongodb://localhost:27017/ballparks",
+    mongoUrl: mongoDb,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: "Comiskey"
+        secret
     }
 });
 
@@ -66,7 +67,7 @@ store.on("error", function (err) {
 const sessionSettings = {
     store,
     name: "BR_Session",
-    secret: "Comiskey",
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
