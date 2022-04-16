@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const ballparkdata = require('./ballparkdata');
 const Ballpark = require('../models/ballparks');
 
+// mongoose.connect('mongodb://localhost:27017/ballparks', {
 mongoose.connect('mongodb://localhost:27017/ballparks', {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -33,7 +34,7 @@ const seedDB = async () => {
                 url: "https://source.unsplash.com/random/?baseball",
                 filename: "baseball_random"
             }],
-            author: "61b7f9def66fa92d984c3658"
+            author: "61d8fd45be1d1200166dc313"
         });
 
         await park.save();       
@@ -42,4 +43,5 @@ const seedDB = async () => {
 
 seedDB().then(() => {
     mongoose.connection.close();
+    console.log("DB update completed.");
 })
